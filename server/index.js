@@ -8,6 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import { error } from "console";
 
 // config
 
@@ -37,3 +38,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage});
+
+// mongoose
+
+const port = process.env.port || 6001;
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    app.listen(port, () => console.log(`Server Port: ${port}`));
+}).catch((error) => console.log(`${error} did not connect`));
